@@ -132,14 +132,80 @@ REF_LABEL=网站首页
 
 由于中国国内访问，时常打不开，你可以访问下面镜像网站。
 
+- [quickref.cn](https://quickref.cn)
 - [ecdata.cn](http://ref.ecdata.cn)
-- [mofe.io](http://quickref.mofe.io)
 - [aibk.cn](https://quickref.aibk.cn)
+- [jgeek.cn](http://reference.jgeek.cn/)
 - [laoleng.vip](http://bbs.laoleng.vip/reference/)
 - [liujiapeng.com](https://www.liujiapeng.com/)
 - [dbyun.net](https://www.dbyun.net/reference/index.html)
+- [dc6.fun](https://dc6.fun/reference/)
+- [if010.com](https://quickref.if010.com/)
+- [pipecraft.net](https://quickref.pipecraft.net/)
+- [isteed.cc](https://ref.isteed.cc/)
+- [1han.wiki](https://code.1han.wiki/)
+- [linzhe.top](https://linzhe.top/)
+- [xushanxiang.com](https://xushanxiang.com/ref/)
+- [winnerzr01.github.io](https://winnerzr01.github.io/Quick-Reference/index.html)
+- [isteed.cc](https://ref.isteed.cc/)
+- [hestudio.org](https://quickref.hestudio.org)
+- [surcode.cn](https://ref.surcode.cn)
+- [cms.im](https://quickref.cms.im/)
+- [nuomiphp.com](https://reference.tool.nuomiphp.com/)
+- [eryajf.net](https://ref.eryajf.net/)
+- [kjchmc.cn](https://ref.kjchmc.cn/)
+- [likeadmin.cn](https://www.likeadmin.cn/quickref/)
+- [qiubit.cc](http://ref.qiubit.cc)
+- [aoh.cc](https://aoh.cc/)
+- [reference.code05.com](https://reference.code05.com/)
+- [kyoma.top](https://reference.kyoma.top/)
+- [quickreference.pages.dev](https://quickreference.pages.dev/)
+- [code05.com](https://reference.code05.com/)
+- [xhfun.cn](https://ref.xhfun.cn/)
 
 感谢🙏
+
+## 利用 Github Actions 定时任务来完成自动更新
+
+在仓库添加 `.github/workflows/update-ref.yml` 文件 Github Actions 配置，感谢 @eryajf https://github.com/jaywcjlove/reference/issues/102#issuecomment-1368158419 提供方法
+
+```yml
+name: 每8个小时更新一次reference
+on:
+  schedule:
+    - cron: '21 */8 * * *' # 定时任务
+  workflow_dispatch:       # 手动运行
+
+env: # 设置环境变量
+  TZ: Asia/Shanghai # 时区（设置时区可使页面中的`最近更新时间`使用时区时间）
+
+jobs:
+  build: # 自定义名称
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚜 拉取最新代码
+        uses: actions/checkout@v3
+        with:
+          ref: 'main'
+          repository: 'jaywcjlove/reference'
+
+      - name: ♻️ 编译静态文件
+        run: |
+          echo -e 'REF_URL=https://refs.xxx.net/\nREF_LABEL=网站首页' > .env
+          npm install
+          npm run build
+
+      - name: 🚁 部署到服务器
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        with:
+          username: 'root'   #ssh user name
+          port: '22' # 远程服务器ssh端口，默认22
+          server: 'prod.refs.xxx.net' # 远程服务器IP
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} # 认证服务器秘钥对的私钥
+          local_path: './dist/*'  # 对应我们项目打包后的静态文件路径
+          remote_path: '/data/www/refs.xxx.net' # 服务器上的路径
+          delete_remote_files: true
+```
 
 ## 贡献
 
@@ -163,6 +229,9 @@ REF_LABEL=网站首页
 <a href="https://github.com/expoli" title="expoli">
   <img src="https://avatars.githubusercontent.com/u/31023767?v=4" width="42;" alt="expoli"/>
 </a>
+<a href="https://github.com/LiuYuan-SHU" title="Liuyuan">
+  <img src="https://avatars.githubusercontent.com/u/96400967?v=4" width="42;" alt="Liuyuan"/>
+</a>
 <a href="https://github.com/heStudio-Network" title="醉、倾城">
   <img src="https://avatars.githubusercontent.com/u/119711513?v=4" width="42;" alt="醉、倾城"/>
 </a>
@@ -174,6 +243,9 @@ REF_LABEL=网站首页
 </a>
 <a href="https://github.com/1834423612" title="kjch">
   <img src="https://avatars.githubusercontent.com/u/49981661?v=4" width="42;" alt="kjch"/>
+</a>
+<a href="https://github.com/pangxiaoli" title="pangxiaoli">
+  <img src="https://avatars.githubusercontent.com/u/54620953?v=4" width="42;" alt="pangxiaoli"/>
 </a>
 <a href="https://github.com/partoneplay" title="partoneplay">
   <img src="https://avatars.githubusercontent.com/u/5189132?v=4" width="42;" alt="partoneplay"/>
@@ -190,8 +262,8 @@ REF_LABEL=网站首页
 <a href="https://github.com/13812700839" title="花殇">
   <img src="https://avatars.githubusercontent.com/u/58072506?v=4" width="42;" alt="花殇"/>
 </a>
-<a href="https://github.com/Smartdousha" title="dousha">
-  <img src="https://avatars.githubusercontent.com/u/52566311?v=4" width="42;" alt="dousha"/>
+<a href="https://github.com/dousha0w0" title="dousha0w0">
+  <img src="https://avatars.githubusercontent.com/u/52566311?v=4" width="42;" alt="dousha0w0"/>
 </a>
 <a href="https://github.com/Brid9e" title="Brid9e">
   <img src="https://avatars.githubusercontent.com/u/85558909?v=4" width="42;" alt="Brid9e"/>
@@ -211,6 +283,9 @@ REF_LABEL=网站首页
 <a href="https://github.com/eeeeeio" title="EEEEE">
   <img src="https://avatars.githubusercontent.com/u/20723545?v=4" width="42;" alt="EEEEE"/>
 </a>
+<a href="https://github.com/Ding-Kyoma" title="HooinKyoma">
+  <img src="https://avatars.githubusercontent.com/u/44542198?v=4" width="42;" alt="HooinKyoma"/>
+</a>
 <a href="https://github.com/jasnzhuang" title="Jason Zhuang">
   <img src="https://avatars.githubusercontent.com/u/16612921?v=4" width="42;" alt="Jason Zhuang"/>
 </a>
@@ -229,14 +304,23 @@ REF_LABEL=网站首页
 <a href="https://github.com/mariuszmichalowski" title="Mariusz Michalowski">
   <img src="https://avatars.githubusercontent.com/u/92091891?v=4" width="42;" alt="Mariusz Michalowski"/>
 </a>
+<a href="https://github.com/Mo3et" title="Monet Lee">
+  <img src="https://avatars.githubusercontent.com/u/34803812?v=4" width="42;" alt="Monet Lee"/>
+</a>
 <a href="https://github.com/HanaNoryu" title="Noryu">
   <img src="https://avatars.githubusercontent.com/u/109856546?v=4" width="42;" alt="Noryu"/>
+</a>
+<a href="https://github.com/Perzch" title="Perzch">
+  <img src="https://avatars.githubusercontent.com/u/67987641?v=4" width="42;" alt="Perzch"/>
 </a>
 <a href="https://github.com/PipecraftNet" title="Pipecraft">
   <img src="https://avatars.githubusercontent.com/u/88728670?v=4" width="42;" alt="Pipecraft"/>
 </a>
 <a href="https://github.com/QDelta" title="QDelta">
   <img src="https://avatars.githubusercontent.com/u/60222316?v=4" width="42;" alt="QDelta"/>
+</a>
+<a href="https://github.com/qinxiongzhou" title="Ryan Zhou">
+  <img src="https://avatars.githubusercontent.com/u/33239096?v=4" width="42;" alt="Ryan Zhou"/>
 </a>
 <a href="https://github.com/whb1998a" title="WHB">
   <img src="https://avatars.githubusercontent.com/u/44045064?v=4" width="42;" alt="WHB"/>
@@ -256,14 +340,26 @@ REF_LABEL=网站首页
 <a href="https://github.com/cool9203" title="cool9203">
   <img src="https://avatars.githubusercontent.com/u/29609607?v=4" width="42;" alt="cool9203"/>
 </a>
+<a href="https://github.com/fjqz177" title="fjqz177">
+  <img src="https://avatars.githubusercontent.com/u/83070583?v=4" width="42;" alt="fjqz177"/>
+</a>
+<a href="https://github.com/gi-b716" title="gi-b716">
+  <img src="https://avatars.githubusercontent.com/u/78394473?v=4" width="42;" alt="gi-b716"/>
+</a>
 <a href="https://github.com/godotc" title="godotc">
   <img src="https://avatars.githubusercontent.com/u/79260851?v=4" width="42;" alt="godotc"/>
 </a>
 <a href="https://github.com/greyhao" title="greyhao">
   <img src="https://avatars.githubusercontent.com/u/107107440?v=4" width="42;" alt="greyhao"/>
 </a>
+<a href="https://github.com/sunny0826" title="guoxudong">
+  <img src="https://avatars.githubusercontent.com/u/24563928?v=4" width="42;" alt="guoxudong"/>
+</a>
 <a href="https://github.com/hua03" title="hua03">
   <img src="https://avatars.githubusercontent.com/u/19561959?v=4" width="42;" alt="hua03"/>
+</a>
+<a href="https://github.com/yanxuplay" title="hupilan">
+  <img src="https://avatars.githubusercontent.com/u/69749541?v=4" width="42;" alt="hupilan"/>
 </a>
 <a href="https://github.com/hweining" title="hweining">
   <img src="https://avatars.githubusercontent.com/u/8973985?v=4" width="42;" alt="hweining"/>
@@ -292,6 +388,9 @@ REF_LABEL=网站首页
 <a href="https://github.com/mancuoj" title="mancuoj">
   <img src="https://avatars.githubusercontent.com/u/45707684?v=4" width="42;" alt="mancuoj"/>
 </a>
+<a href="https://github.com/miclon-dev" title="miclon-dev">
+  <img src="https://avatars.githubusercontent.com/u/111753685?v=4" width="42;" alt="miclon-dev"/>
+</a>
 <a href="https://github.com/onewesong" title="onewesong">
   <img src="https://avatars.githubusercontent.com/u/17920822?v=4" width="42;" alt="onewesong"/>
 </a>
@@ -312,6 +411,9 @@ REF_LABEL=网站首页
 </a>
 <a href="https://github.com/lvzhenbo" title="吕振波">
   <img src="https://avatars.githubusercontent.com/u/32427677?v=4" width="42;" alt="吕振波"/>
+</a>
+<a href="https://github.com/LuckyJie12" title="夜未央">
+  <img src="https://avatars.githubusercontent.com/u/102901105?v=4" width="42;" alt="夜未央"/>
 </a>
 <a href="https://github.com/qyl27" title="秋雨落">
   <img src="https://avatars.githubusercontent.com/u/53731501?v=4" width="42;" alt="秋雨落"/>
