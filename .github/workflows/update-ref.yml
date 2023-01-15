@@ -26,7 +26,7 @@ jobs:
       - name: 🚁 部署到 GitHub Pages
         env: 
           # Github 仓库
-          GITHUB_REPO: github.com/jaywcjlove/reference.git
+          GITHUB_REPO: github.com:Tech-Pang/_reference.git
         # 将编译后的博客文件推送到指定仓库
         run: |
           cd ./dist && git init && git add .
